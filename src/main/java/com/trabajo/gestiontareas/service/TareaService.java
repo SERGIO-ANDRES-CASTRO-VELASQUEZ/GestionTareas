@@ -3,7 +3,7 @@ package com.trabajo.gestiontareas.service;
 import com.trabajo.gestiontareas.entity.Tarea;
 import com.trabajo.gestiontareas.entity.enums.Estado;
 import com.trabajo.gestiontareas.repository.TareaRepo;
-import jakarta.persistence.EntityNotFoundException;
+import com.trabajo.gestiontareas.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +56,11 @@ public class TareaService {
         repo.deleteById(id);
     }
 
-    //casos para mi jajaja
     public List<Tarea> filtrarPorEstado(Estado estado) {
         return repo.findByEstado(estado);
     }
 
-    public List<Tarea> filtrarAntesDeFechaVencimiento(LocalDate fecha) {
-        return repo.findByFechaVencimientoBefore(fecha);
+    public List<Tarea> filtrarFechaVencimiento(LocalDate fechaVencimiento) {
+        return repo.findByFechaVencimiento(fechaVencimiento);
     }
 }

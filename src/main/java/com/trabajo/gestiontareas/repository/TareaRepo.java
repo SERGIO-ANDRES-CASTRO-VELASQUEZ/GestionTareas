@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface TareaRepo extends JpaRepository<Tarea, Long> {
     List<Tarea> findByEstado(Estado estado);
-    List<Tarea> findByFechaVencimientoBefore(LocalDate fecha);
+    List<Tarea> findByFechaVencimiento(LocalDate fechaVencimiento);
 }

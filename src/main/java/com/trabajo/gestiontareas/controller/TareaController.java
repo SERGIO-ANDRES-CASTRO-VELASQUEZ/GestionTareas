@@ -3,6 +3,7 @@ package com.trabajo.gestiontareas.controller;
 import com.trabajo.gestiontareas.entity.Tarea;
 import com.trabajo.gestiontareas.entity.enums.Estado;
 import com.trabajo.gestiontareas.service.TareaService;
+import com.trabajo.gestiontareas.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class TareaController {
         if (estado != null) {
             tareas = tareaService.filtrarPorEstado(estado);
         } else if (antesDe != null) {
-            tareas = tareaService.filtrarAntesDeFechaVencimiento(antesDe);
+            tareas = tareaService.filtrarFechaVencimiento(antesDe);
         } else {
             tareas = tareaService.listarTareas();
         }
@@ -45,6 +46,9 @@ public class TareaController {
     @GetMapping("/{id}")
     public ResponseEntity<Tarea> obtenerTareaPorId(@PathVariable Long id) {
         Tarea tarea = tareaService.obtenerTareaPorId(id);
+        if (tarea == null) {
+            throw new EntityNotFoundException("Id no encontrado " + id);
+        }
         return ResponseEntity.ok(tarea);
     }
 
