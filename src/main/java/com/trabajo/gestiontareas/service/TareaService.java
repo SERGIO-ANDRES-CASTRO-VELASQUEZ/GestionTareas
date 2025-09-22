@@ -1,11 +1,13 @@
 package com.trabajo.gestiontareas.service;
 
 import com.trabajo.gestiontareas.entity.Tarea;
+import com.trabajo.gestiontareas.entity.enums.Estado;
 import com.trabajo.gestiontareas.repository.TareaRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,6 @@ public class TareaService {
 
     public Tarea actualizarTarea(Long id, Tarea tareaActualizada){
         Optional<Tarea> tarea = repo.findById(id);
-
 
         if (tarea.isPresent()) {
             Tarea tareaDb = tarea.get();
@@ -53,5 +54,14 @@ public class TareaService {
             throw new EntityNotFoundException("Tarea no encontrada para eliminar.");
         }
         repo.deleteById(id);
+    }
+
+    //casos para mi jajaja
+    public List<Tarea> filtrarPorEstado(Estado estado) {
+        return repo.findByEstado(estado);
+    }
+
+    public List<Tarea> filtrarAntesDeFechaVencimiento(LocalDate fecha) {
+        return repo.findByFechaVencimientoBefore(fecha);
     }
 }
